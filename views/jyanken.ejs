@@ -9,12 +9,14 @@
     <p>コンピュータは<%= cpu %>です．</p>
     <p>判定：<%= judgement %></p>
     <p>現在<%= total %>試合中<%= win %>勝しています．</p>
+    <p>現在の勝率は<%= Math.round(probability) %>%です．</p>
     <hr>
-    <form action="/janken">
+    <form action="/jyanken">
         <input type="text" name="hand" required>
         <label for="hand">次は何を出す？</label>
         <input type="hidden" name="win" value="<%= win %>">
         <input type="hidden" name="total" value="<%= total %>">
+        <input type="hidden" name="probability" value="<%= probability %>">
         <input type="submit" values="じゃんけん　ポン">
     </form>   
 </body>

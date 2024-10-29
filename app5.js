@@ -27,10 +27,11 @@ app.get("/luck", (req, res) => {
   res.render( 'luck', {number:num, luck:luck} );
 });
 
-app.get("/janken", (req, res) => {
+app.get("/jyanken", (req, res) => {
   let hand = req.query.hand;
-  let win = Number( req.query.win );
-  let total = Number( req.query.total );
+  let win = Number( req.query.win ) || 0;
+  let total = Number( req.query.total ) || 0;
+  let probability = Number( req.query.probability ) || 0;
   console.log( {hand, win, total});
   const num = Math.floor( Math.random() * 3 + 1 );
   let cpu = '';
@@ -38,18 +39,44 @@ app.get("/janken", (req, res) => {
   else if( num==2 ) cpu = 'チョキ';
   else cpu = 'パー';
   // ここに勝敗の判定を入れる
-  // 今はダミーで人間の勝ちにしておく
-  let judgement = '勝ち';
-  win += 1;
+  let judgement = '';
+  if (num === 1) {
+    if (hand === 'パー') {
+      judgement = '勝ち';
+    } else if (hand === 'グー') {
+      judgement = 'あいこ';
+    } else judgement = '負け'
+  } 
+  else if (num === 2) {
+    if (hand === 'グー') {
+      judgement = '勝ち';
+    } else if (hand === 'チョキ') {
+      judgement = 'あいこ';
+    } else judgement = '負け'
+  }
+  else if (num === 3) {
+    if (hand === 'チョキ') {
+      judgement = '勝ち';
+    } else if (hand === 'パー') {
+      judgement = 'あいこ';
+    } else judgement = '負け'
+  }
+  // 勝敗に応じたカウント  
+  if (judgement == '勝ち') {
+    win += 1;
+  }
   total += 1;
+  
+  probability = (win / total) * 100;
   const display = {
     your: hand,
     cpu: cpu,
     judgement: judgement,
     win: win,
-    total: total
+    total: total,
+    probability: probability
   }
-  res.render( 'janken', display );
+  res.render( 'jyanken', display );
 });
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
