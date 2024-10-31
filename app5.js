@@ -66,7 +66,7 @@ app.get("/jyanken", (req, res) => {
     win += 1;
   }
   total += 1;
-  
+  //　 勝率を追加
   probability = (win / total) * 100;
   const display = {
     your: hand,
