@@ -40,24 +40,24 @@ app.get("/jyanken", (req, res) => {
   else cpu = 'パー';
   // ここに勝敗の判定を入れる
   let judgement = '';
-  if (num === 1) {
-    if (hand === 'パー') {
+  if (num == 1) {
+    if (hand == 'パー') {
       judgement = '勝ち';
-    } else if (hand === 'グー') {
+    } else if (hand == 'グー') {
       judgement = 'あいこ';
     } else judgement = '負け'
   } 
-  else if (num === 2) {
-    if (hand === 'グー') {
+  else if (num == 2) {
+    if (hand == 'グー') {
       judgement = '勝ち';
-    } else if (hand === 'チョキ') {
+    } else if (hand == 'チョキ') {
       judgement = 'あいこ';
     } else judgement = '負け'
   }
-  else if (num === 3) {
-    if (hand === 'チョキ') {
+  else if (num == 3) {
+    if (hand == 'チョキ') {
       judgement = '勝ち';
-    } else if (hand === 'パー') {
+    } else if (hand == 'パー') {
       judgement = 'あいこ';
     } else judgement = '負け'
   }
