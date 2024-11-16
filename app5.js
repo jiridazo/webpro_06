@@ -79,4 +79,34 @@ app.get("/jyanken", (req, res) => {
   res.render( 'jyanken', display );
 });
 
+app.get("/kuufuku", (req, res) => {
+  const value = req.query.range;
+  let change = '';
+  console.log('あなたの空腹度は' + value + 'です');
+  if ( value>=80 ){
+    change = '全部マシマシ'
+  }else if ( value>20 && value<80){
+    change = 'そのまま';
+  }else {
+    change = '少なめ'
+  }
+  res.render( 'kuufuku', { range: value, change:change }); // range に value を渡す
+});
+
+app.get("/jirou", (req, res) => {
+  console.log(req.query);  // コンソールに表示
+  
+  let selected = req.query.selected;
+
+  // コールの選択肢を確認
+  if (selected == '1') {
+    res.render('jirou', { filename: "./public/jirou.jpg", alt: "Jirou sokuname" });
+  } else if (selected == '2') {
+    res.render('jirou', { filename: "./public/jirou1.jpg", alt: "Jirou sonomama" });
+  } else if (selected == '3') {
+    res.render('jirou', { filename: "./public/jirou2.jpg", alt: "Jirou zenmashi" });
+  } else {
+    res.render('jirou', { filename: "./public/default.jpg", alt: "Default" });
+  }
+  });
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
