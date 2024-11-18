@@ -23,8 +23,11 @@ app.get("/luck", (req, res) => {
   let luck = '';
   if( num==1 ) luck = '大吉';
   else if( num==2 ) luck = '中吉';
-  console.log( 'あなたの運勢は' + luck + 'です' );
-  res.render( 'luck', {number:num, luck:luck} );
+  else if( num == 3 ) luck = '小吉'
+  else if( num == 4 ) luck = '末吉'
+  else if( num == 5 ) luck = '凶'
+  else if( num == 6 ) luck = '大凶'
+res.render( 'luck', {number:num, luck:luck} );
 });
 
 app.get("/jyanken", (req, res) => {
@@ -46,15 +49,13 @@ app.get("/jyanken", (req, res) => {
     } else if (hand == 'グー') {
       judgement = 'あいこ';
     } else judgement = '負け'
-  } 
-  else if (num == 2) {
+  } else if (num == 2) {
     if (hand == 'グー') {
       judgement = '勝ち';
     } else if (hand == 'チョキ') {
       judgement = 'あいこ';
     } else judgement = '負け'
-  }
-  else if (num == 3) {
+  } else if (num == 3) {
     if (hand == 'チョキ') {
       judgement = '勝ち';
     } else if (hand == 'パー') {
