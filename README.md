@@ -116,7 +116,7 @@ loose --> end1
 ### 実行方法
 1. ```node app5.js``` を起動する
 1. Webブラウザで[localhost:8080/public/kuufuku.html](http://localhost:8080/public/kuufuku.html)にアクセスする
-1. 自分の手でバーを動かして空腹度を決める
+1. 自分の手でパー，グー，チョキを入力し送信
 
 
 ### フローチャート
