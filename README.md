@@ -22,7 +22,7 @@ views/jirou.ejs |二郎系ラーメンのコールテンプレートファイル
 
 ## おみくじのプログラムについて
 ### このプログラムの説明
-このプログラムは，自分の運勢を調べてくれるプログラムである．以下にプログラムを示す．まず，random関数を用いてランダムな数を生成し，生成した数に応じてif文で運勢の制御を行っている．．
+このプログラムは，自分の運勢を調べてくれるプログラムである．以下にプログラムを示す．まず，random関数を用いてランダムな数を生成し，生成した数に応じてif文で運勢の制御を行っている．
 ```javascript
   const num = Math.floor( Math.random() * 6 + 1 );
   let luck = '';
@@ -43,8 +43,17 @@ res.render( 'luck', {number:num, luck:luck} );
 ### このプログラムについて
 このプログラムは，コンピュータとじゃんけんをし勝ち負けを知ることができるプログラムである．以下に勝ち負けの判定を示す．random関数で生成した1~3までの数にそれぞれパー，グー，チョキを格納し，オペレーターから送信された情報を基にif文で勝敗の判定をしている．
 
-### 勝敗の判定
 ```javascript
+  let hand = req.query.hand;
+  let win = Number( req.query.win ) || 0;
+  let total = Number( req.query.total ) || 0;
+  let probability = Number( req.query.probability ) || 0;
+  console.log( {hand, win, total});
+  const num = Math.floor( Math.random() * 3 + 1 );
+  let cpu = '';
+  if( num==1 ) cpu = 'グー';
+  else if( num==2 ) cpu = 'チョキ';
+  else cpu = 'パー';
   let judgement = '';
   if (num == 1) {
     if (hand == 'パー') {
