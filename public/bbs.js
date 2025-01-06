@@ -6,11 +6,7 @@ document.querySelector('#post').addEventListener('click', () => {
     const name = document.querySelector('#name').value;
     const message = document.querySelector('#message').value;
     const time = new Date().toLocaleString({ timeZone: 'Asia/Tokyo' })
-    if (message == ""){
-        alert("メッセージを入力してください");
-        console.log("メッセージを入力してください");
-        return;
-    }
+
     const params = {  // URL Encode
         method: "POST",
         body:  'name='+name+'&message='+message+'&time='+time,
@@ -56,6 +52,7 @@ document.querySelector('#check').addEventListener('click', () => {
         console.log( value );
 
         console.log( number );
+        console.log( response );
         if( number != value ) {　　// サーバーからデータを再取得
             const params = {
                 method: "POST",
@@ -64,9 +61,11 @@ document.querySelector('#check').addEventListener('click', () => {
                     'Content-Type': 'application/x-www-form-urlencoded'               
                 }
             }
+            console.log( params );
             const url = "/read";
             fetch( url, params )
             .then( (response) => {
+                console.log(response);
                 if( !response.ok ) {
                     throw new Error('Error');
                 }
@@ -76,9 +75,9 @@ document.querySelector('#check').addEventListener('click', () => {
                 number += response.messages.length;
                 for( let mes of response.messages ) {
                     console.log( mes );  // 表示する投稿
+                    console.log( response );
                     let cover = document.createElement('div');　//一軒分の投稿
                     cover.className = 'cover';
-                    cover.setAttribute('postId', mes.id);
                     let name_area = document.createElement('span');
                     name_area.className = 'name';
                     name_area.innerText = mes.name;
@@ -92,9 +91,8 @@ document.querySelector('#check').addEventListener('click', () => {
                     let like_button = document.createElement('button');
                     like_button.className = 'like';
                     like_button.innerText = `いいね (${mes.like})`;
-
                     like_button.addEventListener('click', () => {
-                    const post_id = cover.getAttribute('postId');
+                    const id = mes.id;
                     const post_message = mes_area.innerText;
                     const current_like = mes.like;
                         // クライアントから送るいいね数（現在の値 + 1）
@@ -102,12 +100,12 @@ document.querySelector('#check').addEventListener('click', () => {
 
                         const params = {
                             method: "POST",
-                            body: 'id=' + post_id + '&message=' + post_message + '&like=' + update_like,
+                            body: 'id=' + id + '&message=' + post_message + '&like=' + update_like,
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
                             }
                         };
-
+                        console.log( params );
                         const url = "/like";
                         fetch(url, params)
                         .then((response) => {
@@ -117,6 +115,7 @@ document.querySelector('#check').addEventListener('click', () => {
                             return response.json();
                         })
                         .then((response) => {
+                            console.log( response );
                             mes.like = response.like;  // サーバーから返ってきた新しいいいね数
                             like_button.innerText = `いいね (${mes.like})`;  // ボタンの表示を更新
                             console.log("いいねされたメッセージ:", cover);
@@ -128,11 +127,10 @@ document.querySelector('#check').addEventListener('click', () => {
                     delete_button.innerText = '削除';
                     delete_button.addEventListener('click', () => {
                         const post_message = mes_area.innerText;
-                        const post_id = cover.getAttribute('postId');
-                        console.log('Post ID:', post_id); 
+                        const id = mes.id;
                         const params = {
                             method: "POST",
-                            body: 'id='+post_id+'&message='+post_message,
+                            body: 'id='+id+'&message='+post_message,
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
                             }
@@ -141,7 +139,6 @@ document.querySelector('#check').addEventListener('click', () => {
                         const url = "/delete";
                         fetch(url, params)
                             .then((response) => {
-                                console.log(response);
                                 if (!response.ok) {
                                     throw new Error('Error');
                                 }
@@ -149,6 +146,7 @@ document.querySelector('#check').addEventListener('click', () => {
                             })
                             .then((response) => {
                                 number = response.number
+                                console.log( response );
                                 console.log("削除されたメッセージ:", cover);
                                     bbs.removeChild(cover);  // 削除したメッセージを画面から削除
                             });

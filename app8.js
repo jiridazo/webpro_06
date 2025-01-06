@@ -103,7 +103,7 @@ app.post("/post", (req, res) => {
   const time = req.body.time;
   const id  = bbs.length + 1;
   const like = 0;
-  console.log( [name, message, time] );
+  console.log( [id,name, message, time,like] );
   // 本来はここでDBMSに保存する
   bbs.push({ id: id, name: name, message: message, time: time, like: like});
   res.json( {number: bbs.length } );
@@ -111,15 +111,15 @@ app.post("/post", (req, res) => {
 
 
 app.post('/delete', (req, res) => {
-    const id = Number(req.body.id); // 削除するメッセージのIDをリクエストボディから取得
-    
-    const message = req.body.message;  // もしメッセージも指定したい場合
+    const id = Number(req.body.id); 
+
+    const message = req.body.message;  
     let deleted = false;
     
-    // メッセージIDと内容を確認して削除
     for (let i = 0; i < bbs.length; i++) {
       if (bbs[i].id == id && bbs[i].message == message) {
-        bbs.splice(i, 1); // メッセージを削除
+        console.log('解除された投稿'+ [bbs[i].id,bbs[i].name,bbs[i].message,bbs[i].time,bbs[i].like])
+        bbs.splice(i, 1); 
         deleted = true;
         break;
       }
@@ -132,22 +132,21 @@ app.post('/delete', (req, res) => {
   });
 
   app.post('/like', (req, res) => {
-    const id = Number(req.body.id);  // 投稿のID
-    const new_like = Number(req.body.like);  // クライアントから送られてきたいいね数
-    const message = req.body.message;  // メッセージ内容
+    const id = Number(req.body.id);  
+    const new_like = Number(req.body.like); 
+    const message = req.body.message;  
     console.log(new_like);
     let updated_like = 0;
 
-    // メッセージIDと内容を確認して「いいね」を更新
+    
     for (let i = 0; i < bbs.length; i++) {
         if (bbs[i].id == id && bbs[i].message == message) {
-            bbs[i].like = new_like;  // 送られてきた「いいね」数で更新
-            updated_like = bbs[i].like;  // 更新後の「いいね」数
+            bbs[i].like = new_like;  
+            updated_like = bbs[i].like; 
             break;
         }
     }
-
-    res.json({ like: updated_like });  // 新しい「いいね」数を返す
+    res.json({ like: updated_like });  
 });
 
 app.get("/bbs", (req,res) => {
