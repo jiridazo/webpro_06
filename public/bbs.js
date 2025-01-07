@@ -65,7 +65,6 @@ document.querySelector('#check').addEventListener('click', () => {
             const url = "/read";
             fetch( url, params )
             .then( (response) => {
-                console.log(response);
                 if( !response.ok ) {
                     throw new Error('Error');
                 }
