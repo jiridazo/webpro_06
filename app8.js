@@ -112,7 +112,6 @@ app.post("/post", (req, res) => {
 
 app.post('/delete', (req, res) => {
     const id = Number(req.body.id); 
-
     const message = req.body.message;  
     let deleted = false;
     
@@ -129,9 +128,9 @@ app.post('/delete', (req, res) => {
     } else {
       res.json({ message: '指定されたIDのメッセージは見つかりませんでした' });
     }
-  });
+});
 
-  app.post('/like', (req, res) => {
+app.post('/like', (req, res) => {
     const id = Number(req.body.id);  
     const new_like = Number(req.body.like); 
     const message = req.body.message;  
